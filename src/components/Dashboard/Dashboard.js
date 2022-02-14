@@ -1,3 +1,5 @@
+import React, { useEffect } from 'react';
+
 import {
   Paper,
   Table,
@@ -7,8 +9,9 @@ import {
   TableRow,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useSelector, useDispatch } from 'react-redux';
 
-import React from 'react';
+import { fetchData } from '../../reducers/usersSlice';
 
 const WrapperPaper = styled(Paper)`
   max-width: 1170px;
@@ -16,6 +19,14 @@ const WrapperPaper = styled(Paper)`
 `;
 
 export default function Dashborad() {
+  const users = useSelector((state) => state.users);
+
+  const dispatch = useDispatch(fetchData());
+
+  useEffect(() => {
+    dispatch(fetchData());
+  }, [dispatch]);
+
   return (
     <WrapperPaper>
       <Table>
@@ -29,13 +40,15 @@ export default function Dashborad() {
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow>
-            <TableCell variant="body">Id</TableCell>
-            <TableCell variant="body">Name</TableCell>
-            <TableCell variant="body">Username</TableCell>
-            <TableCell variant="body">City</TableCell>
-            <TableCell variant="body">Email</TableCell>
-          </TableRow>
+          {users.data.map((user) => (
+            <TableRow key={user.id}>
+              <TableCell variant="body">{user.id}</TableCell>
+              <TableCell variant="body">{user.name}</TableCell>
+              <TableCell variant="body">{user.username}</TableCell>
+              <TableCell variant="body">{user.address.city}</TableCell>
+              <TableCell variant="body">{user.email}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </WrapperPaper>
