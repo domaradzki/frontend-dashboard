@@ -1,12 +1,17 @@
+import { styled } from '@mui/material/styles';
+import Dashborad from '../Dashboard/Dashboard';
+import Header from '../Header/Header';
 
-import './App.css';
-
+const Wrapper = styled('div')`
+  width: 100%;
+`;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header"></header>
-    </div>
+    <Wrapper>
+      <Header></Header>
+      <Dashborad />
+    </Wrapper>
   );
 }
 
