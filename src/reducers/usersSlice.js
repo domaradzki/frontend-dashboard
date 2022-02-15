@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import uniqid from 'uniqid';
 
 const initialState = {
   data: [],
@@ -90,7 +91,7 @@ const deleteUser = createAsyncThunk(
       if (users.isPending && users.requestId !== thunkAPI.requestId) {
         return;
       }
-      const response = await fetch(
+      await fetch(
         `https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${id}`,
         {
           method: 'DELETE',
@@ -141,7 +142,7 @@ const slice = createSlice({
         if (!payload) {
           return;
         }
-        const id = state.data.length + 1; //  payload.id
+        const id = uniqid(); //  payload.id
         state.data.push({ ...payload, id });
         state.isPending = false;
         state.requestId = null;

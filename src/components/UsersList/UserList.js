@@ -26,8 +26,8 @@ export default function UserList() {
     if (direction === 'asc' && !active) {
       const ASCdata = [...data];
       ASCdata.sort((a, b) => {
-        if (a.username < b.username) return -1;
-        if (a.username > b.username) return 1;
+        if (a.username?.toLowerCase() < b.username?.toLowerCase()) return -1;
+        if (a.username?.toLowerCase() > b.username?.toLowerCase()) return 1;
         return 0;
       });
       setActive(!active);
@@ -35,8 +35,8 @@ export default function UserList() {
     } else if (direction === 'asc' && active) {
       const DESCdata = [...data];
       DESCdata.sort((a, b) => {
-        if (a.username < b.username) return 1;
-        if (a.username > b.username) return -1;
+        if (a.username?.toLowerCase() < b.username?.toLowerCase()) return 1;
+        if (a.username?.toLowerCase() > b.username?.toLowerCase()) return -1;
         return 0;
       });
       setDirection('desc');
@@ -77,9 +77,9 @@ export default function UserList() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((user) => (
+          {data.map((user, index) => (
             <TableRow key={user.id}>
-              <TableCell variant="body">{user.id}</TableCell>
+              <TableCell variant="body">{index + 1}</TableCell>
               <TableCell variant="body">{user.name}</TableCell>
               <TableCell variant="body">{user.username}</TableCell>
               <TableCell variant="body">{user.address?.city}</TableCell>
