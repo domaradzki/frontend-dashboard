@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Paper,
@@ -7,6 +7,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  TableSortLabel,
   Typography,
 } from '@mui/material';
 import { useSelector } from 'react-redux';
@@ -17,6 +18,42 @@ import DeleteUser from '../DeleteUser/DeleteUser';
 export default function UserList() {
   const users = useSelector((state) => state.users);
 
+  const [active, setActive] = useState(false);
+  const [direction, setDirection] = useState('asc');
+  const [data, setData] = useState(users.data);
+
+  const handleActiveSort = () => {
+    if (direction === 'asc' && !active) {
+      const ASCdata = [...data];
+      ASCdata.sort((a, b) => {
+        if (a.username < b.username) return -1;
+        if (a.username > b.username) return 1;
+        return 0;
+      });
+      setActive(!active);
+      setData(ASCdata);
+    } else if (direction === 'asc' && active) {
+      const DESCdata = [...data];
+      DESCdata.sort((a, b) => {
+        if (a.username < b.username) return 1;
+        if (a.username > b.username) return -1;
+        return 0;
+      });
+      setDirection('desc');
+      setData(DESCdata);
+    } else if (direction === 'desc') {
+      setActive(!active);
+      setDirection('asc');
+      setData(users.data);
+    }
+  };
+
+  useEffect(() => {
+    setData(users.data);
+    setActive(false);
+    setDirection('asc');
+  }, [users]);
+
   return (
     <Paper elevation={3}>
       <Table>
@@ -24,7 +61,15 @@ export default function UserList() {
           <TableRow>
             <TableCell variant="head">Id</TableCell>
             <TableCell variant="head">Name</TableCell>
-            <TableCell variant="head">Username</TableCell>
+            <TableCell variant="head">
+              <TableSortLabel
+                active={active}
+                direction={direction}
+                onClick={() => handleActiveSort()}
+              >
+                Username
+              </TableSortLabel>
+            </TableCell>
             <TableCell variant="head">City</TableCell>
             <TableCell variant="head">Email</TableCell>
             <TableCell variant="head">Edit</TableCell>
@@ -32,7 +77,7 @@ export default function UserList() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.data.map((user) => (
+          {data.map((user) => (
             <TableRow key={user.id}>
               <TableCell variant="body">{user.id}</TableCell>
               <TableCell variant="body">{user.name}</TableCell>
