@@ -16,7 +16,7 @@ import { fetchData } from '../../reducers/usersSlice';
 export default function UserList() {
   const users = useSelector((state) => state.users);
 
-  const dispatch = useDispatch(fetchData());
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchData());
@@ -42,7 +42,7 @@ export default function UserList() {
               <TableCell variant="body">{user.id}</TableCell>
               <TableCell variant="body">{user.name}</TableCell>
               <TableCell variant="body">{user.username}</TableCell>
-              <TableCell variant="body">{user.address.city}</TableCell>
+              <TableCell variant="body">{user.address?.city}</TableCell>
               <TableCell variant="body">{user.email}</TableCell>
               <TableCell variant="body">
                 <Button variant="contained" color="secondary" size="small">

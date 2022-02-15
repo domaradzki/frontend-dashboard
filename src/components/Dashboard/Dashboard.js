@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { styled } from '@mui/material/styles';
-import { Button, Container, Paper, Stack, Typography } from '@mui/material';
+
+import { Container, Paper, Stack, Typography } from '@mui/material';
 
 import UserList from '../UsersList/UserList';
+import AddUser from '../AddUser/AddUser';
 
 const Item = styled(Paper)`
   padding: 20px;
@@ -21,7 +23,8 @@ export default function Dashborad() {
           <Typography variant="h4" gutterBottom component="div">
             Users List
           </Typography>
-          <Button variant="contained">Add User</Button>
+
+          <AddUser />
         </Stack>
       </Item>
       <Item>
