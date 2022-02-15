@@ -12,8 +12,18 @@ const Item = styled(Paper)`
 
 export default function Dashborad() {
   return (
-    <Container>
-      <Item>
+    <Container
+      sx={{
+        minHeight: 'calc(100vh - 64px)',
+        padding: '20px',
+      }}
+    >
+      <Item
+        sx={{
+          height: '100%',
+          padding: '10px',
+        }}
+      >
         <Stack
           spacing={2}
           direction="row"
@@ -26,8 +36,7 @@ export default function Dashborad() {
 
           <AddUser />
         </Stack>
-      </Item>
-      <Item>
+
         <UserList />
       </Item>
     </Container>

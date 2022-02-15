@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import usersReducer from './reducers/usersSlice';
+import usersReducer, { fetchData } from './reducers/usersSlice';
 
 const reducer = combineReducers({
   users: usersReducer,
@@ -8,5 +8,6 @@ const reducer = combineReducers({
 const store = configureStore({
   reducer,
 });
+store.dispatch(fetchData());
 
 export default store;

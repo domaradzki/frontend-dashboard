@@ -1,26 +1,21 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import {
-  Button,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
+  Typography,
 } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { fetchData } from '../../reducers/usersSlice';
+import EditUser from '../EditUser/Edituser';
+import DeleteUser from '../DeleteUser/DeleteUser';
 
 export default function UserList() {
   const users = useSelector((state) => state.users);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchData());
-  }, [dispatch]);
 
   return (
     <Paper elevation={3}>
@@ -45,19 +40,27 @@ export default function UserList() {
               <TableCell variant="body">{user.address?.city}</TableCell>
               <TableCell variant="body">{user.email}</TableCell>
               <TableCell variant="body">
-                <Button variant="contained" color="secondary" size="small">
-                  Edit
-                </Button>
+                <EditUser user={user} />
               </TableCell>
               <TableCell variant="body">
-                <Button variant="contained" color="error" size="small">
-                  Delete
-                </Button>
+                <DeleteUser id={user.id} />
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      {users.data.length === 0 && (
+        <Typography
+          variant="h6"
+          gutterBottom
+          component="div"
+          sx={{
+            padding: '20px',
+          }}
+        >
+          No data to display
+        </Typography>
+      )}
     </Paper>
   );
 }

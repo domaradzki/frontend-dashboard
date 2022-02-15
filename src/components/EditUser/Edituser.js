@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 
-import { addUser } from '../../reducers/usersSlice';
+import { updateUser } from '../../reducers/usersSlice';
 
 const style = {
   position: 'absolute',
@@ -20,30 +20,43 @@ const style = {
   p: 4,
 };
 
-export default function AddUser() {
+export default function EditUser({ user }) {
   const dispatch = useDispatch();
-  const handleAddUser = (user) => {
-    dispatch(addUser(user));
-  };
   const [open, setOpen] = React.useState(false);
-  const [input, setInput] = React.useState(null);
+  const [input, setInput] = React.useState(user);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleInputChange = (event) => {
-    setInput({
-      ...input,
-      [event.target.name]: event.target.value,
-    });
+    if (event.target.name === 'city') {
+      setInput({
+        ...input,
+        address: { [event.target.name]: event.target.value },
+      });
+    } else {
+      setInput({
+        ...input,
+        [event.target.name]: event.target.value,
+      });
+    }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleAddUser(input);
+    dispatch(updateUser(input));
     handleClose();
   };
+  const handleEditUser = (e) => {
+    handleOpen();
+  };
+
   return (
     <div>
-      <Button variant="contained" onClick={handleOpen}>
-        Add User
+      <Button
+        variant="contained"
+        color="secondary"
+        size="small"
+        onClick={handleEditUser}
+      >
+        Edit
       </Button>
       <Modal
         open={open}
@@ -53,7 +66,7 @@ export default function AddUser() {
       >
         <Box sx={style}>
           <Typography variant="h4" gutterBottom component="div">
-            Adding new user
+            Editing the user
           </Typography>
           <Box
             component="form"
@@ -67,12 +80,12 @@ export default function AddUser() {
           >
             <div>
               <TextField
-                // error
                 required
                 id="name"
                 name="name"
                 type="text"
                 label="Your name"
+                value={input.name}
                 placeholder="Your name"
                 onChange={handleInputChange}
               />
@@ -82,7 +95,28 @@ export default function AddUser() {
                 name="email"
                 type="email"
                 label="Your email"
+                value={input.email}
                 placeholder="Your email"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <TextField
+                id="username"
+                name="username"
+                type="text"
+                label="Your username"
+                value={input.username || ''}
+                placeholder="Your username"
+                onChange={handleInputChange}
+              />
+              <TextField
+                id="city"
+                name="city"
+                type="text"
+                label="Your city"
+                value={input.address?.city || ''}
+                placeholder="Your city"
                 onChange={handleInputChange}
               />
             </div>

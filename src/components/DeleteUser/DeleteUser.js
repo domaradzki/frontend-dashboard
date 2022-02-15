@@ -4,9 +4,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import TextField from '@mui/material/TextField';
 
-import { addUser } from '../../reducers/usersSlice';
+import { deleteUser } from '../../reducers/usersSlice';
 
 const style = {
   position: 'absolute',
@@ -20,30 +19,28 @@ const style = {
   p: 4,
 };
 
-export default function AddUser() {
+export default function DeleteUser({ id }) {
   const dispatch = useDispatch();
-  const handleAddUser = (user) => {
-    dispatch(addUser(user));
-  };
+
   const [open, setOpen] = React.useState(false);
-  const [input, setInput] = React.useState(null);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleInputChange = (event) => {
-    setInput({
-      ...input,
-      [event.target.name]: event.target.value,
-    });
-  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleAddUser(input);
+    dispatch(deleteUser(id));
     handleClose();
   };
+
   return (
     <div>
-      <Button variant="contained" onClick={handleOpen}>
-        Add User
+      <Button
+        variant="contained"
+        color="error"
+        size="small"
+        onClick={handleOpen}
+      >
+        Delete
       </Button>
       <Modal
         open={open}
@@ -53,7 +50,7 @@ export default function AddUser() {
       >
         <Box sx={style}>
           <Typography variant="h4" gutterBottom component="div">
-            Adding new user
+            Confirm to delete this user?
           </Typography>
           <Box
             component="form"
@@ -65,27 +62,6 @@ export default function AddUser() {
             method="POST"
             onSubmit={(e) => handleSubmit(e)}
           >
-            <div>
-              <TextField
-                // error
-                required
-                id="name"
-                name="name"
-                type="text"
-                label="Your name"
-                placeholder="Your name"
-                onChange={handleInputChange}
-              />
-              <TextField
-                required
-                id="email"
-                name="email"
-                type="email"
-                label="Your email"
-                placeholder="Your email"
-                onChange={handleInputChange}
-              />
-            </div>
             <Box
               sx={{
                 padding: '10px',
@@ -97,6 +73,7 @@ export default function AddUser() {
                 }}
                 type="submit"
                 variant="contained"
+                color="error"
               >
                 Confirm
               </Button>
